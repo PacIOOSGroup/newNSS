@@ -292,6 +292,43 @@ c changed August 3, 2015
          xlon =  157.0 + 45.0 / 60.0 + 25.18 / 3600.0
          xlon = -1.0 * xlon
       endif
+      if ( sensor.eq."pp2" ) then
+         dark_c = 0.07
+         scale_c = 12.0
+         dark_t = 0.039
+         scale_t = 5
+         zlev = -1.0
+         ylat = 6.8054
+         xlon = 158.1129
+      endif
+      if ( sensor.eq."pp3" ) then
+        dark_c = 0.071
+        scale_c = 10
+        dark_t = 0.079
+        scale_t = 5
+        zlev = -1.0
+        ylat = 5.8710
+        xlon = -162.1103
+      endif
+      if ( sensor.eq."pp4" ) then
+        dark_c = 0.065
+        scale_c = 10
+        dark_t = 0.064
+        scale_t = 5
+        zlev = -1.0
+        ylat = 21.2909
+        xlon = -157.8606
+      endif
+      if ( sensor.eq."pp5" ) then
+        dark_c = 0.066
+        scale_c = 10
+        dark_t = 0.062
+        scale_t = 5
+        zlev = -1.0
+        ylat = 21.2682
+        xlon = -157.7767
+      endif
+
 
 c  Write data set title (metadata statement)
 
