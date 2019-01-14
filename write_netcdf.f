@@ -754,6 +754,10 @@ c with leading hash (most are like this)
 111   format ( 1x, f7.4, 2x, f9.6, 2x, f6.3, 2x, f7.4, 2x, f7.4, 2x, 
      +         f8.4, 3x, i2.2, 1x, a3, 1x, i4, 1x, i2.2, 1x, i2.2, 
      +         1x, i2.2 )
+112   format ( 2x, f6.4, 
+
+
+
 c no leading hash but a space
 c89    format ( 1x, f7.4, 2x, f8.5, 2x, f8.3, 1x, f7.4, 1x, f7.4, 2x, 
 c     +         f8.4, 2x, i2.2, 1x, a3, 1x, i4, 1x, i2.2, 1x, i2.2, 
