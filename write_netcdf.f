@@ -986,8 +986,8 @@ c temperature:
      +                         'Celsius')
       call check_err ( iret )
 
-      doubleval(1) = 11 
-      doubleval(2) = 31 
+      doubleval(1) = 15 
+      doubleval(2) = 35 
       iret = nf_put_att_double ( ncid, var_id(1), 'valid_range',
      +                           NF_DOUBLE, 2, doubleval )
       call check_err ( iret )
