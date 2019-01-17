@@ -49,6 +49,8 @@ def main():
         
 
 
+        toWriteDataset.latVar[:] = 6.8054
+        toWriteDataset.lonVar[:] = 158.1129
             
 
         toWriteDataset.close()
