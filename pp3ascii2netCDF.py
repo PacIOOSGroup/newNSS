@@ -11,25 +11,23 @@ import pytz
 
 def main():
 
-    fileList = sorted(glob.glob("pp2data/byDayUTC/*"))
-    
+    fileList = sorted(glob.glob("pp3data/byDayUTC/*"))   
 
     for f in fileList:
         currentFile = open(f, 'r')
-        dsetFilename = "pp2Outfiles/pp02_" + currentFile.name[17:21] + "_" + currentFile.name[21:23] + "_" + currentFile.name[23:25] + ".nc"
+        dsetFilename = "pp3Outfiles/pp03_" + currentFile.name[17:21] + "_" + currentFile.name[21:23] + "_" + currentFile.name[23:25] + ".nc"
 
         print(dsetFilename)
 
         toWriteDataset = initNetCDF(dsetFilename)
         wholeFile = currentFile.readlines()
         
-
-
         firstOf2008 = datetime.datetime.strptime('2008-01-01 00:00:00', '%Y-%m-%d %H:%M:%S')
 
         temperatures = []
         conductivities = []
         chlorophylls = []
+        pressures = []
         turbidities = []
         salinities = []
         dates = []
@@ -38,11 +36,13 @@ def main():
             splitLine = l.split(',')
             temperatures.append(float(splitLine[0].strip('#').strip(' ')))
             conductivities.append(float(splitLine[1].strip(' ')))
-            chlorophylls.append(float(splitLine[2].strip(' ')))
-            turbidities.append(float(splitLine[3].strip(' ')))
-            salinities.append(float(splitLine[4].strip(' ')))
+            pressures.append(float(splitLine[2].strip(' ')))
+            chlorophylls.append(float(splitLine[3].strip(' ')))
+            turbidities.append(float(splitLine[4].strip(' ')))
+            salinities.append(float(splitLine[5].strip(' ')))
+            splitLine[6] = splitLine[6].strip(' ')
             
-            date = datetime.datetime(int(splitLine[5][8:12]), monthToNumber(splitLine[5][4:7]), int(splitLine[5][1:3]), int(splitLine[5][13:15]), int(splitLine[5][16:18]), int(splitLine[5][19:21]), 0, pytz.timezone('Pacific/Pohnpei'))
+            date = datetime.datetime(int(splitLine[6][7:11]), monthToNumber(splitLine[6][3:6]), int(splitLine[6][0:2]), int(splitLine[6][12:14]), int(splitLine[6][15:17]), int(splitLine[6][18:20]), 0, pytz.timezone('Pacific/Samoa'))
             tz = pytz.utc
             date = date.astimezone(tz) 
             dateSeconds = time.mktime(date.timetuple())
@@ -51,9 +51,9 @@ def main():
             minutesSince = (dateSeconds - firstOf2008Seconds) / 60
             dates.append(minutesSince)        
         
-        dark_c = 0.07
-        scale_c = 12.0
-        dark_t = 0.039
+        dark_c = 0.071
+        scale_c = 10
+        dark_t = 0.079
         scale_t = 5
 
         for i in range(len(chlorophylls)):
@@ -64,11 +64,12 @@ def main():
 
        # temperature = temperature.reshape(18,1,1,1)
 
-        toWriteDataset.variables["lat"][:] = 6.8054
-        toWriteDataset.variables["lon"][:] = 158.1129
-        toWriteDataset.variables["z"][:] = -39.5
+        toWriteDataset.variables["lat"][:] = 5.8710
+        toWriteDataset.variables["lon"][:] = -162.1103
+        toWriteDataset.variables["z"][:] = -4.0
         toWriteDataset.variables["temp"][:] = temperatures #, 1, 6.8054, 158.1129
         toWriteDataset.variables["cond"][:] = conductivities#, 1, 6.8054, 158.1129
+        toWriteDataset.variables["pres"][:] = pressures
         toWriteDataset.variables["flor"][:] =  chlorophylls#, 1, 6.8054, 158.1129  
         toWriteDataset.variables["turb"][:] =  turbidities#, 1, 6.8054, 158.1129
         toWriteDataset.variables["salt"][:] =  salinities#, 1, 6.8054, 158.1129
@@ -96,7 +97,7 @@ def initNetCDF(dsetFilename):
     dataSet.createDimension("lat", 1)
     dataSet.createDimension("lon", 1)
 
-    dataSet.title = "Nearshore sensor PP02, near Pohnpei"
+    dataSet.title = "Nearshore sensor PP03, near Palmyra Atoll National Wild Life Refuge"
 
     timeVar = dataSet.createVariable("time", "f4", ("time"))
     timeVar.long_name="Time"
@@ -145,6 +146,15 @@ def initNetCDF(dsetFilename):
     conductivityVar.units="S m-1"
     conductivityVar._Fillvalue = fillvalue
     conductivityVar.valid_range=0.0,50.0
+
+    pressureVar = dataSet.createVariable("pres", "f4", ("time","z","lat","lon"))
+    pressureVar.long_name="Pressure"
+    pressureVar.standard_name="sea_water_pressure"
+    pressureVar.short_name="pres"
+    pressureVar.units="dbar"
+    pressureVar._Fillvalue = fillvalue
+    pressureVar.valid_range=0,100
+
 
     chlorophyllVar = dataSet.createVariable("flor", "f4", ("time","z","lat","lon"))
     chlorophyllVar.long_name="Chlorophyll"
