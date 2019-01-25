@@ -42,9 +42,9 @@ def main():
             salinities.append(float(splitLine[5].strip(' ')))
             splitLine[6] = splitLine[6].strip(' ')
             
-            date = datetime.datetime(int(splitLine[6][7:11]), monthToNumber(splitLine[6][3:6]), int(splitLine[6][0:2]), int(splitLine[6][12:14]), int(splitLine[6][15:17]), int(splitLine[6][18:20]), 0, pytz.timezone('US/Hawaii'))
-            tz = pytz.utc
-            date = date.astimezone(tz) 
+            date = datetime.datetime(int(splitLine[6][7:11]), monthToNumber(splitLine[6][3:6]), int(splitLine[6][0:2]), int(splitLine[6][12:14]), int(splitLine[6][15:17]), int(splitLine[6][18:20]), 0, pytz.timezone('Etc/GMT+10'))
+           # tz = pytz.utc
+            date = date.astimezone(pytz.timezone('UTC')) 
             dateSeconds = time.mktime(date.timetuple())
             firstOf2008Seconds = time.mktime(firstOf2008.timetuple())
 

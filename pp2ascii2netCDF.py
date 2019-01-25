@@ -42,9 +42,8 @@ def main():
             turbidities.append(float(splitLine[3].strip(' ')))
             salinities.append(float(splitLine[4].strip(' ')))
             
-            date = datetime.datetime(int(splitLine[5][8:12]), monthToNumber(splitLine[5][4:7]), int(splitLine[5][1:3]), int(splitLine[5][13:15]), int(splitLine[5][16:18]), int(splitLine[5][19:21]), 0, pytz.timezone('Pacific/Pohnpei'))
-            tz = pytz.utc
-            date = date.astimezone(tz) 
+            date = datetime.datetime(int(splitLine[5][8:12]), monthToNumber(splitLine[5][4:7]), int(splitLine[5][1:3]), int(splitLine[5][13:15]), int(splitLine[5][16:18]), int(splitLine[5][19:21]), 0, pytz.timezone('UTC'))
+            date = date.astimezone(pytz.timezone('Etc/GMT+11')) 
             dateSeconds = time.mktime(date.timetuple())
             firstOf2008Seconds = time.mktime(firstOf2008.timetuple())
 

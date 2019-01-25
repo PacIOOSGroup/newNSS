@@ -10,7 +10,7 @@ def main():
         for j in range (1, 13, 1):
             for k in range(1, 32, 1):
                 toCat = str(i).zfill(2) + str(j).zfill(2) + str(k).zfill(2)
-                fileName = "pp2data/pp2_pohnpei_" + toCat + "*"
+                fileName = "pp2data/originalFiles/pp2_pohnpei_" + toCat + "*"
                 print(fileName) 
                 outFile = "pp2data/byDayUTC/" + toCat + ".txt"
                 fileList = sorted(glob.glob(fileName))
