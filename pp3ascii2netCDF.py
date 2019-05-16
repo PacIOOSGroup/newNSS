@@ -57,9 +57,11 @@ def main():
         scale_t = 5
 
         for i in range(len(chlorophylls)):
-            chlorophylls[i] = ((chlorophylls[i] - dark_c)*scale_c)/1000000
+            if chlorophylls[i] != -999.0:
+                chlorophylls[i] = ((chlorophylls[i] - dark_c)*scale_c)/1000000
         for i in range(len(turbidities)):
-            turbidities[i] = (turbidities[i] - dark_t)*scale_t
+            if turbidities[i] != -999.0:
+                turbidities[i] = (turbidities[i] - dark_t)*scale_t
 
 
        # temperature = temperature.reshape(18,1,1,1)
@@ -99,85 +101,85 @@ def initNetCDF(dsetFilename):
 
     dataSet.title = "Nearshore sensor PP03, near Palmyra Atoll National Wild Life Refuge"
 
-    timeVar = dataSet.createVariable("time", "f4", ("time"))
+    timeVar = dataSet.createVariable("time", "f4", ("time"),fill_value=fillvalue)
     timeVar.long_name="Time"
     timeVar.standard_name="time"
     timeVar.short_name="time"
     timeVar.axis="T"
     timeVar.units="minutes since 2008-01-01 00:00:00"
-    timeVar._Fillvalue = fillvalue
+  #  timeVar._FillValue = fillvalue
 
-    zVar = dataSet.createVariable("z", "f4", ("z"))
+    zVar = dataSet.createVariable("z", "f4", ("z"),fill_value=fillvalue)
     zVar.long_name="depth below mean sea level"
     zVar.standard_name="depth"
     zVar.short_name="depth"
     zVar.axis="z"
     zVar.units="meters"
-    zVar._Fillvalue = fillvalue
+ #   zVar._FillValue = fillvalue
 
-    latVar = dataSet.createVariable("lat","f4",("lat"))
+    latVar = dataSet.createVariable("lat","f4",("lat"),fill_value=fillvalue)
     latVar.long_name="Latitude"
     latVar.standard_name="latitude"
     latVar.short_name="lat"
     latVar.axis="Y"
     latVar.units="degrees_north"
-    latVar._Fillvalue = fillvalue
+  #  latVar._FillValue = fillvalue
 
-    lonVar = dataSet.createVariable("lon","f4",("lon"))
+    lonVar = dataSet.createVariable("lon","f4",("lon"),fill_value=fillvalue)
     lonVar.long_name="Longitude"
     lonVar.standard_name="longitude"
     lonVar.short_name="lon"
     lonVar.axis="X"
     lonVar.units="degrees_east"
-    lonVar._Fillvalue = fillvalue
+ #   lonVar._FillValue = fillvalue
     
-    tempVar = dataSet.createVariable("temp", "f4", ("time","z","lat","lon"))
+    tempVar = dataSet.createVariable("temp", "f4", ("time","z","lat","lon"),fill_value=fillvalue)
     tempVar.long_name="Temperature"
     tempVar.standard_name="sea_water_temperature"
     tempVar.short_name="temp"
     tempVar.units="Celsius"
-    tempVar._Fillvalue = fillvalue
+ #   tempVar._FillValue = fillvalue
     tempVar.valid_range=10.0,35.0
 
-    conductivityVar = dataSet.createVariable("cond", "f4", ("time","z","lat","lon"))
+    conductivityVar = dataSet.createVariable("cond", "f4", ("time","z","lat","lon"),fill_value=fillvalue)
     conductivityVar.long_name="Conductivity"
     conductivityVar.standard_name="sea_water_electrical_conductivity"
     conductivityVar.short_name="cond"
     conductivityVar.units="S m-1"
-    conductivityVar._Fillvalue = fillvalue
+  #  conductivityVar._FillValue = fillvalue
     conductivityVar.valid_range=0.0,50.0
 
-    pressureVar = dataSet.createVariable("pres", "f4", ("time","z","lat","lon"))
+    pressureVar = dataSet.createVariable("pres", "f4", ("time","z","lat","lon"),fill_value=fillvalue)
     pressureVar.long_name="Pressure"
     pressureVar.standard_name="sea_water_pressure"
     pressureVar.short_name="pres"
     pressureVar.units="dbar"
-    pressureVar._Fillvalue = fillvalue
+  #  pressureVar._FillValue = fillvalue
     pressureVar.valid_range=0,100
 
 
-    chlorophyllVar = dataSet.createVariable("flor", "f4", ("time","z","lat","lon"))
+    chlorophyllVar = dataSet.createVariable("flor", "f4", ("time","z","lat","lon"),fill_value=fillvalue)
     chlorophyllVar.long_name="Chlorophyll"
     chlorophyllVar.standard_name="chlorophyll_concentration_in_sea_water"
     chlorophyllVar.short_name="flor"
     chlorophyllVar.units = "kg m-3"
-    chlorophyllVar._Fillvalue = fillvalue
+  #  chlorophyllVar._FillValue = fillvalue
     chlorophyllVar.valid_range=0.0,10.0
 
-    turbidityVar = dataSet.createVariable("turb", "f4", ("time","z","lat","lon"))
+    turbidityVar = dataSet.createVariable("turb", "f4", ("time","z","lat","lon"),fill_value=fillvalue)
     turbidityVar.long_name="Turbidity"
     turbidityVar.standard_name="turbidity_of_sea_water"
     turbidityVar.short_name="turb"
     turbidityVar.units="ntu"
-    turbidityVar._Fillvalue = fillvalue
+ #   turbidityVar._FillValue = fillvalue
     turbidityVar.valid_range=0.0,10.0
 
-    salinityVar = dataSet.createVariable("salt", "f4", ("time","z","lat","lon"))
+    salinityVar = dataSet.createVariable("salt", "f4", ("time","z","lat","lon"),fill_value=fillvalue)
     salinityVar.long_name="Salinity"
     salinityVar.standard_name="sea_water_salinity"
     salinityVar.short_name="salt"
     salinityVar.units="1e-3"
-    salinityVar._Fillvalue = fillvalue
+  #  salinityVar._FillValue = fillvalue
     salinityVar.valid_range = 10.0, 40.0
 
     return dataSet
